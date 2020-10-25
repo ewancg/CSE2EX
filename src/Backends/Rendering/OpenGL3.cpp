@@ -653,7 +653,10 @@ void RenderBackend_UploadSurface(RenderBackend_Surface *surface, const unsigned 
 	unsigned char *buffer = (unsigned char*)malloc(width * height);
 
 	if (buffer == NULL)
+	{
+		Backend_PrintError("Couldn't allocate memory for surface buffer");
 		return;
+	}
 
 	// Flush the vertex buffer if we're about to modify its texture
 	if (surface->texture_id == last_source_texture || surface->texture_id == last_destination_texture)
