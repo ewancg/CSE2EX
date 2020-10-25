@@ -609,7 +609,7 @@ static int Callback_ControlsController_Rebind(OptionsMenu *parent_menu, size_t t
 		case ACTION_OK:
 			PlaySoundObject(5, SOUND_MODE_PLAY);
 
-			JOYSTICK_STATUS old_state = gJoystickState;
+			DIRECTINPUTSTATUS old_state = gJoystickState;
 
 			char timeout_string[2];
 			timeout_string[1] = '\0';
@@ -712,7 +712,7 @@ static int Callback_ControlsController(OptionsMenu *parent_menu, size_t this_opt
 
 static int Callback_Soundtrack_Option(OptionsMenu *parent_menu, size_t this_option, CallbackAction action)
 {
-	CONFIG *conf = (CONFIG*)parent_menu->options[this_option].user_data;
+	CONFIGDATA *conf = (CONFIGDATA*)parent_menu->options[this_option].user_data;
 
 	switch (action)
 	{
@@ -743,7 +743,7 @@ static int Callback_Soundtrack(OptionsMenu *parent_menu, size_t this_option, Cal
 {
 	(void)parent_menu;
 
-	CONFIG *conf = (CONFIG*)parent_menu->options[this_option].user_data;
+	CONFIGDATA *conf = (CONFIGDATA*)parent_menu->options[this_option].user_data;
 
 	if (action != ACTION_OK)
 		return CALLBACK_CONTINUE;
@@ -794,7 +794,7 @@ static int Callback_Soundtrack(OptionsMenu *parent_menu, size_t this_option, Cal
 
 static int Callback_Framerate(OptionsMenu *parent_menu, size_t this_option, CallbackAction action)
 {
-	CONFIG *conf = (CONFIG*)parent_menu->options[this_option].user_data;
+	CONFIGDATA *conf = (CONFIGDATA*)parent_menu->options[this_option].user_data;
 
 	const char *strings[] = {"50FPS", "60FPS"};
 
@@ -831,7 +831,7 @@ static int Callback_Framerate(OptionsMenu *parent_menu, size_t this_option, Call
 
 static int Callback_Vsync(OptionsMenu *parent_menu, size_t this_option, CallbackAction action)
 {
-	CONFIG *conf = (CONFIG*)parent_menu->options[this_option].user_data;
+	CONFIGDATA *conf = (CONFIGDATA*)parent_menu->options[this_option].user_data;
 
 	const char *strings[] = {"Off", "On"};
 
@@ -869,7 +869,7 @@ static int Callback_Vsync(OptionsMenu *parent_menu, size_t this_option, Callback
 
 static int Callback_Resolution(OptionsMenu *parent_menu, size_t this_option, CallbackAction action)
 {
-	CONFIG *conf = (CONFIG*)parent_menu->options[this_option].user_data;
+	CONFIGDATA *conf = (CONFIGDATA*)parent_menu->options[this_option].user_data;
 
 	const char *strings[] = {"Fullscreen", "Windowed 426x240", "Windowed 852x480", "Windowed 1278x720", "Windowed 1704x960"};
 
@@ -917,7 +917,7 @@ static int Callback_Resolution(OptionsMenu *parent_menu, size_t this_option, Cal
 
 static int Callback_SmoothScrolling(OptionsMenu *parent_menu, size_t this_option, CallbackAction action)
 {
-	CONFIG *conf = (CONFIG*)parent_menu->options[this_option].user_data;
+	CONFIGDATA *conf = (CONFIGDATA*)parent_menu->options[this_option].user_data;
 
 	const char *strings[] = {"Off", "On"};
 
@@ -960,7 +960,7 @@ static int Callback_Options(OptionsMenu *parent_menu, size_t this_option, Callba
 		return CALLBACK_CONTINUE;
 
 	// Make the options match the configuration data
-	CONFIG conf;
+	CONFIGDATA conf;
 	if (!LoadConfigData(&conf))
 		DefaultConfigData(&conf);
 

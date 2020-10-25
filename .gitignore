@@ -2,7 +2,7 @@
 /obj
 
 # Exclude the (recommended) CMake build directory
-/build
+/build*
 
 # Exclude executables
 /game_english/CSE2_debug.exe
@@ -15,6 +15,7 @@
 /game_english/DoConfig
 /game_english/CSE2_debug.rpx
 /game_english/CSE2.rpx
+/game_english/\!CSE2
 /game_japanese/CSE2_debug.exe
 /game_japanese/DoConfig_debug.exe
 /game_japanese/CSE2.exe
@@ -25,6 +26,30 @@
 /game_japanese/DoConfig
 /game_japanese/CSE2_debug.rpx
 /game_japanese/CSE2.rpx
+/game_japanese/\!CSE2
+
+# Exclude MSVC debug data
+/game_english/CSE2_debug.ilk
+/game_english/CSE2_debug.pdb
+/game_english/DoConfig_debug.ilk
+/game_english/DoConfig_debug.pdb
+/game_english/CSE2.ilk
+/game_english/CSE2.pdb
+/game_english/DoConfig.ilk
+/game_english/DoConfig.pdb
+/game_japanese/CSE2_debug.ilk
+/game_japanese/CSE2_debug.pdb
+/game_japanese/DoConfig_debug.ilk
+/game_japanese/DoConfig_debug.pdb
+/game_japanese/CSE2.ilk
+/game_japanese/CSE2.pdb
+/game_japanese/DoConfig.ilk
+/game_japanese/DoConfig.pdb
+
+# Exclude misc. MSVC junk
+/.vs
+/out
+/CMakeSettings.json
 
 # Exclude save data
 /game_english/Config.dat
@@ -45,6 +70,10 @@
 /game_japanese/mute
 /game_japanese/save
 /game_japanese/s_reverse
+
+# Exclude error logs
+/game_english/error.log
+/game_japanese/error.log
 
 ###################
 # Accurate branch #
@@ -70,24 +99,5 @@
 # Portable branch #
 ###################
 
-# Exclude Wii U build directory
-/buildwiiu
-
 # Exclude converted resource files
 /src/Resource
-
-########################
-# Enhanced-lite branch #
-########################
-
-# Exclude CSE2EL configuration file
-/game_english/ConfigCSE2EL.dat
-/game_japanese/ConfigCSE2EL.dat
-
-###################
-# Enhanced branch #
-###################
-
-# Exclude CSE2E configuration file
-/game_english/ConfigCSE2E.dat
-/game_japanese/ConfigCSE2E.dat
