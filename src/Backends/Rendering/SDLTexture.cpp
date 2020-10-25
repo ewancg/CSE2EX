@@ -99,9 +99,7 @@ RenderBackend_Surface* RenderBackend_Init(const char *window_title, size_t scree
 			else
 				Backend_PrintInfo("Selected SDL render driver: %s", info.name);
 
-			SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 			framebuffer.texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, screen_width, screen_height);
-			SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
 
 			if (framebuffer.texture != NULL)
 			{
@@ -247,18 +245,18 @@ void RenderBackend_UploadSurface(RenderBackend_Surface *surface, const unsigned 
 	}
 
 	const unsigned char *src_pixel = pixels;
-	unsigned char *dst_pixel = buffer;
 
 	// Pre-multiply the colour channels with the alpha, so blending works correctly
 	for (size_t y = 0; y < height; ++y)
 	{
+		unsigned char *buffer_pointer = &buffer[y * width * 4];
 
 		for (size_t x = 0; x < width; ++x)
 		{
-			*dst_pixel++ = (src_pixel[0] * src_pixel[3]) / 0xFF;
-			*dst_pixel++ = (src_pixel[1] * src_pixel[3]) / 0xFF;
-			*dst_pixel++ = (src_pixel[2] * src_pixel[3]) / 0xFF;
-			*dst_pixel++ = src_pixel[3];
+			*buffer_pointer++ = (src_pixel[0] * src_pixel[3]) / 0xFF;
+			*buffer_pointer++ = (src_pixel[1] * src_pixel[3]) / 0xFF;
+			*buffer_pointer++ = (src_pixel[2] * src_pixel[3]) / 0xFF;
+			*buffer_pointer++ = src_pixel[3];
 			src_pixel += 4;
 		}
 	}
