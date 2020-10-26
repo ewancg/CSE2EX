@@ -766,26 +766,23 @@ void InitTextObject(const char *name)
 	// you consider that the English translation was specifically built
 	// around the broken spacing.
 
-	switch (mag)
+#ifdef JAPANESE
+	if (mag == 2)
 	{
-		case 1:
-		#ifdef JAPANESE
-			height = 12;
-			width = 6;
-		#else
-			// For some weird reason, Windows's 6x12 Courier New is
-			// closer to 5x10, but FreeType renders it as proper 6x12,
-			// so we have to cheat a little.
-			height = 10;
-			width = 5;
-		#endif
-			break;
-
-		default:
-			height = 10 * mag;	// TODO FIX THIS DAMMIT
-			width = 5 * mag;
-			break;
+		// Special-case 2 to use a size more
+		// likely to have embedded bitmaps
+		height = 20;
+		width = 10;
 	}
+	else
+	{
+		height = 12 * mag;
+		width = 6 * mag;
+	}
+#else
+	height = 10 * mag;
+	width = 5 * mag;
+#endif
 
 	font = LoadFreeTypeFont(path.c_str(), width, height);
 #else
