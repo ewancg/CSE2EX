@@ -63,8 +63,7 @@ bool WindowBackend_OpenGL_CreateWindow(const char *window_title, size_t *screen_
 					if (GLAD_GL_VERSION_3_2)
 					{
 			#endif
-						if (vsync)
-							SDL_GL_SetSwapInterval(1);
+						SDL_GL_SetSwapInterval(vsync ? 1 : 0);	// Set vsync
 
 						Backend_PostWindowCreation();
 

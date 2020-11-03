@@ -13,9 +13,12 @@
 
 bool WindowBackend_OpenGL_CreateWindow(const char *window_title, size_t *screen_width, size_t *screen_height, bool fullscreen, bool vsync)
 {
-	SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, vsync);
+#ifdef SDL_GL_SWAP_CONTROL
+	if (SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, vsync ? 1 : 0) < 0)	// Set vsync
+		Backend_PrintError("Couldn't set OpenGL swap interval: %s", SDL_GetError());
+#endif
 
-	if (SDL_SetVideoMode(*screen_width, *screen_height, 0, SDL_RESIZABLE | SDL_OPENGL | (fullscreen ? SDL_FULLSCREEN : 0)) != NULL)
+	if (SDL_SetVideoMode(*screen_width, *screen_height, 0, SDL_OPENGL | (fullscreen ? SDL_FULLSCREEN : 0)) != NULL)
 	{
 		SDL_WM_SetCaption(window_title, NULL);
 

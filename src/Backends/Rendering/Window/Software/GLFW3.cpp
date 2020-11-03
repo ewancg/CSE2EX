@@ -52,8 +52,7 @@ bool WindowBackend_Software_CreateWindow(const char *window_title, size_t screen
 	{
 		glfwMakeContextCurrent(window);
 
-		if (*vsync)
-			glfwSwapInterval(1);
+		glfwSwapInterval(*vsync ? 1 : 0);	// Set vsync
 
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
