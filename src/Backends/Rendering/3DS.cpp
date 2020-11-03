@@ -74,7 +74,7 @@ static void EnableAlpha(bool enabled)
 			C2D_Flush();
 
 		if (enabled)
-			C3D_AlphaBlend(GPU_BLEND_ADD, GPU_BLEND_ADD, GPU_ONE, GPU_ONE_MINUS_SRC_ALPHA, GPU_ONE, GPU_ONE_MINUS_SRC_ALPHA);
+			C3D_AlphaBlend(GPU_BLEND_ADD, GPU_BLEND_ADD, GPU_SRC_ALPHA, GPU_ONE_MINUS_SRC_ALPHA, GPU_SRC_ALPHA, GPU_ONE_MINUS_SRC_ALPHA);
 		else
 			C3D_AlphaBlend(GPU_BLEND_ADD, GPU_BLEND_ADD, GPU_ONE, GPU_ZERO, GPU_ONE, GPU_ZERO);
 
@@ -299,7 +299,7 @@ void RenderBackend_UploadSurface(RenderBackend_Surface *surface, const unsigned 
 	{
 		const unsigned char *src = pixels;
 
-		// Convert from RGBA to pre-multiplied ABGR
+		// Convert from RGBA to ABGR
 		for (size_t h = 0; h < height; ++h)
 		{
 			unsigned char *dst = &abgr_buffer[h * surface->texture.width * 4];
@@ -312,9 +312,9 @@ void RenderBackend_UploadSurface(RenderBackend_Surface *surface, const unsigned 
 				unsigned char a = *src++;
 
 				*dst++ = a;
-				*dst++ = (b * a) / 0xFF;
-				*dst++ = (g * a) / 0xFF;
-				*dst++ = (r * a) / 0xFF;
+				*dst++ = b;
+				*dst++ = g;
+				*dst++ = r;
 			}
 		}
 
@@ -366,7 +366,7 @@ void RenderBackend_ColourFill(RenderBackend_Surface *surface, const RenderBacken
 
 	SelectRenderTarget(surface->render_target);
 
-	C2D_DrawRectSolid(rect->left, rect->top, 0.0f, rect->right - rect->left, rect->bottom - rect->top, C2D_Color32((red * alpha) / 0xFF, (green * alpha) / 0xFF, (blue * alpha) / 0xFF, alpha));
+	C2D_DrawRectSolid(rect->left, rect->top, 0.0f, rect->right - rect->left, rect->bottom - rect->top, C2D_Color32(red, green, blue, alpha));
 }
 
 RenderBackend_GlyphAtlas* RenderBackend_CreateGlyphAtlas(size_t width, size_t height)
@@ -452,8 +452,7 @@ void RenderBackend_UploadGlyph(RenderBackend_GlyphAtlas *atlas, size_t x, size_t
 
 void RenderBackend_PrepareToDrawGlyphs(RenderBackend_GlyphAtlas *atlas, RenderBackend_Surface *destination_surface, unsigned char red, unsigned char green, unsigned char blue)
 {
-	// We can't use premultiplied alpha - it conflicts with the tinting
-	C3D_AlphaBlend(GPU_BLEND_ADD, GPU_BLEND_ADD, GPU_SRC_ALPHA, GPU_ONE_MINUS_SRC_ALPHA, GPU_SRC_ALPHA, GPU_ONE_MINUS_SRC_ALPHA);
+	EnableAlpha(true);
 
 	glyph_atlas = atlas;
 	glyph_destination_surface = destination_surface;
