@@ -970,7 +970,9 @@ static int Callback_Options(OptionsMenu *parent_menu, size_t this_option, Callba
 		{"Controls", Callback_ControlsController, NULL, NULL, 0, FALSE},
 		{"Soundtrack", Callback_Soundtrack, &conf, NULL, 0, FALSE},
 		{"Framerate", Callback_Framerate, &conf, NULL, 0, FALSE},
+	#ifndef _3DS
 		{"Smooth Scrolling", Callback_SmoothScrolling, &conf, NULL, 0, FALSE},
+	#endif
 	};
 
 	Option options_pc[] = {
