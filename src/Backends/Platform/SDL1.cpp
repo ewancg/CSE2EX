@@ -266,8 +266,3 @@ void Backend_GetDisplayMode(Backend_DisplayMode *display_mode)
 	display_mode->height = 720;
 	display_mode->refresh_rate = 0;	// Dummy - tricks the game into thinking it should never use vsync, which is correct
 }
-
-bool Backend_IsConsole(void)
-{
-	return false;
-}

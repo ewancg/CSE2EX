@@ -689,7 +689,11 @@ static int Callback_ControlsController(OptionsMenu *parent_menu, size_t this_opt
 	}
 
 	OptionsMenu options_menu = {
-		Backend_IsConsole() ? "CONTROLS" : "CONTROLS (GAMEPAD)",
+	#if !defined(__WIIU__) && !defined(_3DS)
+		"CONTROLS (GAMEPAD)",
+	#else
+		"CONTROLS",
+	#endif
 		NULL,
 		options,
 		sizeof(options) / sizeof(options[0]),
@@ -964,33 +968,37 @@ static int Callback_Options(OptionsMenu *parent_menu, size_t this_option, Callba
 	if (!LoadConfigData(&conf))
 		DefaultConfigData(&conf);
 
-	BOOL is_console = Backend_IsConsole();
-
-	Option options_console[] = {
-		{"Controls", Callback_ControlsController, NULL, NULL, 0, FALSE},
-		{"Soundtrack", Callback_Soundtrack, &conf, NULL, 0, FALSE},
-		{"Framerate", Callback_Framerate, &conf, NULL, 0, FALSE},
-	#ifndef _3DS
-		{"Smooth Scrolling", Callback_SmoothScrolling, &conf, NULL, 0, FALSE},
-	#endif
-	};
-
-	Option options_pc[] = {
+	Option options[] = {
+	#if !defined(__WIIU__) && !defined(_3DS)
 		{"Controls (Keyboard)", Callback_ControlsKeyboard, NULL, NULL, 0, FALSE},
 		{"Controls (Gamepad)", Callback_ControlsController, NULL, NULL, 0, FALSE},
+	#else
+		{"Controls", Callback_ControlsController, NULL, NULL, 0, FALSE},
+	#endif
+
 		{"Soundtrack", Callback_Soundtrack, &conf, NULL, 0, FALSE},
 		{"Framerate", Callback_Framerate, &conf, NULL, 0, FALSE},
+
+	#if !defined(__WIIU__) && !defined(_3DS)
 		{"V-sync", Callback_Vsync, &conf, NULL, 0, FALSE},
 		{"Resolution", Callback_Resolution, &conf, NULL, 0, FALSE},
+	#endif
+
+	#if !defined(_3DS)
 		{"Smooth Scrolling", Callback_SmoothScrolling, &conf, NULL, 0, FALSE}
+	#endif
 	};
 
 	OptionsMenu options_menu = {
 		"OPTIONS",
 		restart_required ? "RESTART REQUIRED" : NULL,
-		is_console ? options_console : options_pc,
-		is_console ? (sizeof(options_console) / sizeof(options_console[0])) : (sizeof(options_pc) / sizeof(options_pc[0])),
-		is_console ? -60 : -70,
+		options,
+		sizeof(options) / sizeof(options[0]),
+	#if !defined(__WIIU__) && !defined(_3DS)
+		-70,
+	#else
+		-60,
+	#endif
 		TRUE
 	};
 
