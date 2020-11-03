@@ -19,7 +19,7 @@ void ControllerBackend_Deinit(void)
 
 bool ControllerBackend_GetJoystickStatus(bool **buttons, unsigned int *button_count, short **axes, unsigned int *axis_count)
 {
-	static bool button_buffer[21];
+	static bool button_buffer[22];
 
 	*buttons = button_buffer;
 	*axes = NULL;
@@ -63,7 +63,7 @@ bool ControllerBackend_GetJoystickStatus(bool **buttons, unsigned int *button_co
 
 const char* ControllerBackend_GetButtonName(unsigned int button_id)
 {
-	const char *button_names[27] = {
+	const char *button_names[22] = {
 		"Y",
 		"B",
 		"X",
