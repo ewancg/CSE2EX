@@ -245,12 +245,11 @@ void RenderBackend_UploadSurface(RenderBackend_Surface *surface, const unsigned 
 	}
 
 	const unsigned char *src_pixel = pixels;
+	unsigned char *buffer_pointer = buffer;
 
 	// Pre-multiply the colour channels with the alpha, so blending works correctly
 	for (size_t y = 0; y < height; ++y)
 	{
-		unsigned char *buffer_pointer = &buffer[y * width * 4];
-
 		for (size_t x = 0; x < width; ++x)
 		{
 			*buffer_pointer++ = (src_pixel[0] * src_pixel[3]) / 0xFF;
