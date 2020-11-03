@@ -356,7 +356,7 @@ elseif(BACKEND_PLATFORM MATCHES "WiiU")
 	)
 elseif(BACKEND_PLATFORM MATCHES "3DS")
 	target_sources(CSE2 PRIVATE
-		"src/Backends/Controller/Null.cpp"
+		"src/Backends/Controller/3DS.cpp"
 		"src/Backends/Platform/3DS.cpp"
 	)
 elseif(BACKEND_PLATFORM MATCHES "Null")

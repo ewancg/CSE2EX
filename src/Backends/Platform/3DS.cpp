@@ -97,22 +97,6 @@ bool Backend_SystemTask(bool active)
 void Backend_GetKeyboardState(bool *keyboard_state)
 {
 	memset(keyboard_state, 0, sizeof(bool) * BACKEND_KEYBOARD_TOTAL);
-
-	// Read controller
-	hidScanInput();
-
-	u32 buttons = hidKeysHeld();
-
-	keyboard_state[BACKEND_KEYBOARD_UP] |= buttons & KEY_UP;
-	keyboard_state[BACKEND_KEYBOARD_DOWN] |= buttons & KEY_DOWN;
-	keyboard_state[BACKEND_KEYBOARD_LEFT] |= buttons & KEY_LEFT;
-	keyboard_state[BACKEND_KEYBOARD_RIGHT] |= buttons & KEY_RIGHT;
-	keyboard_state[BACKEND_KEYBOARD_Z] |= buttons & KEY_B;                               // Jump
-	keyboard_state[BACKEND_KEYBOARD_X] |= buttons & KEY_Y;                               // Shoot
-	keyboard_state[BACKEND_KEYBOARD_Q] |= buttons & (KEY_A | KEY_START);                 // Inventory
-	keyboard_state[BACKEND_KEYBOARD_W] |= buttons & (KEY_X | KEY_SELECT);                // Map
-	keyboard_state[BACKEND_KEYBOARD_A] |= buttons & (KEY_L | KEY_ZR | KEY_CSTICK_LEFT);  // Weapon left
-	keyboard_state[BACKEND_KEYBOARD_S] |= buttons & (KEY_R | KEY_ZL | KEY_CSTICK_RIGHT); // Weapon right
 }
 
 void Backend_ShowMessageBox(const char *title, const char *message)
