@@ -74,7 +74,7 @@ static void EnableAlpha(bool enabled)
 			C2D_Flush();
 
 		if (enabled)
-			C3D_AlphaBlend(GPU_BLEND_ADD, GPU_BLEND_ADD, GPU_SRC_ALPHA, GPU_ONE_MINUS_SRC_ALPHA, GPU_SRC_ALPHA, GPU_ONE_MINUS_SRC_ALPHA);
+			C3D_AlphaBlend(GPU_BLEND_ADD, GPU_BLEND_ADD, GPU_ONE, GPU_ONE_MINUS_SRC_ALPHA, GPU_ONE, GPU_ONE_MINUS_SRC_ALPHA);
 		else
 			C3D_AlphaBlend(GPU_BLEND_ADD, GPU_BLEND_ADD, GPU_ONE, GPU_ZERO, GPU_ONE, GPU_ZERO);
 
@@ -240,7 +240,7 @@ RenderBackend_Surface* RenderBackend_CreateSurface(size_t width, size_t height, 
 
 				if (surface->render_target != NULL)
 				{
-					C2D_TargetClear(surface->render_target, C2D_Color32(0, 0, 0, 0xFF));
+					C2D_TargetClear(surface->render_target, C2D_Color32(0, 0, 0, 0));
 
 					return surface;
 				}
@@ -299,7 +299,7 @@ void RenderBackend_UploadSurface(RenderBackend_Surface *surface, const unsigned 
 	{
 		const unsigned char *src = pixels;
 
-		// Convert from RGBA to ABGR
+		// Convert from RGBA to pre-multiplied ABGR
 		for (size_t h = 0; h < height; ++h)
 		{
 			unsigned char *dst = &abgr_buffer[h * surface->texture.width * 4];
@@ -312,9 +312,9 @@ void RenderBackend_UploadSurface(RenderBackend_Surface *surface, const unsigned 
 				unsigned char a = *src++;
 
 				*dst++ = a;
-				*dst++ = b;
-				*dst++ = g;
-				*dst++ = r;
+				*dst++ = (b * a) / 0xFF;
+				*dst++ = (g * a) / 0xFF;
+				*dst++ = (r * a) / 0xFF;
 			}
 		}
 
@@ -452,7 +452,8 @@ void RenderBackend_UploadGlyph(RenderBackend_GlyphAtlas *atlas, size_t x, size_t
 
 void RenderBackend_PrepareToDrawGlyphs(RenderBackend_GlyphAtlas *atlas, RenderBackend_Surface *destination_surface, unsigned char red, unsigned char green, unsigned char blue)
 {
-	EnableAlpha(true);
+	// We can't use premultiplied alpha - it conflicts with the tinting
+	C3D_AlphaBlend(GPU_BLEND_ADD, GPU_BLEND_ADD, GPU_SRC_ALPHA, GPU_ONE_MINUS_SRC_ALPHA, GPU_SRC_ALPHA, GPU_ONE_MINUS_SRC_ALPHA);
 
 	glyph_atlas = atlas;
 	glyph_destination_surface = destination_surface;
