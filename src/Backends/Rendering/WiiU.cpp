@@ -165,7 +165,7 @@ static void FlushVertexBuffer(void)
 
 static void Blit(RenderBackend_Surface *source_surface, const RenderBackend_Rect *source_rect, RenderBackend_Surface *destination_surface, const RenderBackend_Rect *destination_rect, bool alpha_blend)
 {
-	const RenderMode render_mode = (colour_key ? MODE_DRAW_SURFACE_WITH_TRANSPARENCY : MODE_DRAW_SURFACE);
+	const RenderMode render_mode = (alpha_blend ? MODE_DRAW_SURFACE_WITH_TRANSPARENCY : MODE_DRAW_SURFACE);
 
 	// Flush vertex data if a context-change is needed
 	if (last_render_mode != render_mode || last_source_texture != &source_surface->texture || last_destination_texture != &destination_surface->texture)
@@ -188,14 +188,14 @@ static void Blit(RenderBackend_Surface *source_surface, const RenderBackend_Rect
 
 		// Set shader uniforms
 		const float vertex_coordinate_transform[4] = {2.0f / destination_surface->texture.surface.width, -2.0f / destination_surface->texture.surface.height, 1.0f, 1.0f};
-		GX2SetVertexUniformReg(shader->vertexShader->uniformVars[0].offset, 4, (uint32_t*)vertex_coordinate_transform);
+		GX2SetVertexUniformReg(shader_group_texture.vertexShader->uniformVars[0].offset, 4, (uint32_t*)vertex_coordinate_transform);
 
 		const float texture_coordinate_transform[4] = {1.0f / source_surface->texture.surface.width, 1.0f / source_surface->texture.surface.height, 1.0f, 1.0f};
-		GX2SetVertexUniformReg(shader->vertexShader->uniformVars[1].offset, 4, (uint32_t*)texture_coordinate_transform);
+		GX2SetVertexUniformReg(shader_group_texture.vertexShader->uniformVars[1].offset, 4, (uint32_t*)texture_coordinate_transform);
 
 		// Bind misc. data
 		GX2SetPixelSampler(&sampler_point, shader_group_texture.pixelShader->samplerVars[0].location);
-		GX2SetPixelTexture(&source_surface->texture, shader->pixelShader->samplerVars[0].location);
+		GX2SetPixelTexture(&source_surface->texture, shader_group_texture.pixelShader->samplerVars[0].location);
 
 		// Disable blending
 		GX2SetColorControl(GX2_LOGIC_OP_COPY, alpha_blend ? 0xFF : 0, FALSE, TRUE);
@@ -480,14 +480,14 @@ void RenderBackend_DrawScreen(void)
 
 	VertexBufferSlot *vertex_buffer_slot = (VertexBufferSlot*)GX2RLockBufferEx(&vertex_buffer, (GX2RResourceFlags)0);
 
-	// Set buffer to (4:3) full-screen
-	vertex_buffer_slot->vertices[0].position.x = -12.0f / 16.0f + 1.0f;
+	// Set buffer to (16:9) full-screen
+	vertex_buffer_slot->vertices[0].position.x = 0.0f;
 	vertex_buffer_slot->vertices[0].position.y = -2.0f;
-	vertex_buffer_slot->vertices[1].position.x = 12.0f / 16.0f + 1.0f;
+	vertex_buffer_slot->vertices[1].position.x = 2.0f;
 	vertex_buffer_slot->vertices[1].position.y = -2.0f;
-	vertex_buffer_slot->vertices[2].position.x = 12.0f / 16.0f + 1.0f;
+	vertex_buffer_slot->vertices[2].position.x = 2.0f;
 	vertex_buffer_slot->vertices[2].position.y = 0.0f;
-	vertex_buffer_slot->vertices[3].position.x = -12.0f / 16.0f + 1.0f;
+	vertex_buffer_slot->vertices[3].position.x = 0.0f;
 	vertex_buffer_slot->vertices[3].position.y = 0.0f;
 
 	// Set buffer to full-texture

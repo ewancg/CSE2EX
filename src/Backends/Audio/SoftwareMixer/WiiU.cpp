@@ -53,10 +53,6 @@ static void FrameCallback(void)
 		// Fill mixer buffer
 		parent_callback(stream_buffer_long, buffer_length);
 
-	#ifdef EXTRA_SOUND_FORMATS
-		ExtraSound_Mix(stream_buffer_long, buffer_length);
-	#endif
-
 		// Deinterlate samples, convert them to S16, and write them to the double-buffers
 		short *left_output_buffer = &stream_buffers[0][buffer_length * last_buffer];
 		short *right_output_buffer = &stream_buffers[1][buffer_length * last_buffer];
@@ -192,10 +188,6 @@ unsigned long SoftwareMixerBackend_Init(void (*callback)(long *stream, size_t fr
 		free(stream_buffer_long);
 	}
 
-#ifdef EXTRA_SOUND_FORMATS
-	ExtraSound_Deinit();
-#endif
-
 	AXQuit();
 
 	return 0;
@@ -212,10 +204,6 @@ void SoftwareMixerBackend_Deinit(void)
 	free(stream_buffers[0]);
 
 	free(stream_buffer_long);
-
-#ifdef EXTRA_SOUND_FORMATS
-	ExtraSound_Deinit();
-#endif
 
 	AXQuit();
 }
@@ -246,14 +234,4 @@ void SoftwareMixerBackend_LockOrganyaMutex(void)
 void SoftwareMixerBackend_UnlockOrganyaMutex(void)
 {
 	OSUnlockMutex(&organya_mutex);
-}
-
-void AudioBackend_Lock(void)
-{
-	OSLockMutex(&sound_list_mutex);
-}
-
-void AudioBackend_Unlock(void)
-{
-	OSUnlockMutex(&sound_list_mutex);
 }
