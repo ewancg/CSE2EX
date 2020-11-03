@@ -29,6 +29,9 @@
 // This only works if 'FREETYPE_FONTS' is enabled!
 //#define ENABLE_FONT_ANTIALIASING
 
+// The above is no longer a problem in this branch, so antialiasing can be safely enabled
+#define ENABLE_FONT_ANTIALIASING
+
 // This controls however many glyphs (letters) the game can cache in VRAM at once
 #define TOTAL_GLYPH_SLOTS 256
 
