@@ -114,7 +114,7 @@ static void EndRendering(void)
 
 RenderBackend_Surface* RenderBackend_Init(const char *window_title, size_t screen_width, size_t screen_height, bool fullscreen, bool *vsync)
 {
-	*vsync = true;
+	*vsync = false;
 
 	if (C3D_Init(C3D_DEFAULT_CMDBUF_SIZE))
 	{
