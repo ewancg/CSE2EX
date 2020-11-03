@@ -129,7 +129,7 @@ void RenderBackend_UploadSurface(RenderBackend_Surface *surface, const unsigned 
 	{
 		for (size_t x = 0; x < width; ++x)
 		{
-			unsigned char *destination_pixel = &surface->pixels[x * surface->pitch + (surface->width - y - 1) * 3];
+			unsigned char *destination_pixel = &surface->pixels[x * surface->pitch + (surface->width - y - 1) * 4];
 
 			destination_pixel[2] = *source_pointer++;
 			destination_pixel[1] = *source_pointer++;
@@ -138,7 +138,7 @@ void RenderBackend_UploadSurface(RenderBackend_Surface *surface, const unsigned 
 	}
 #else
 	for (size_t y = 0; y < height; ++y)
-		memcpy(&surface->pixels[y * surface->pitch], &pixels[y * width * 3], width * 3);
+		memcpy(&surface->pixels[y * surface->pitch], &pixels[y * width * 4], width * 4);
 #endif
 }
 
