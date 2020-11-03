@@ -18,20 +18,6 @@
 #include "File.h"
 #include "Backends/Rendering.h"
 
-// Cave Story wasn't intended to use font anti-aliasing. It's only because Microsoft enabled it
-// by default from Windows Vista onwards that the game started using it.
-// Font anti-aliasing conflicts with the game's colour-keying, causing ugly artifacting around
-// the text in numerous cases.
-// The only way to 'fix' the artifacting is to convert the entire drawing system to use alpha
-// blending instead of colour-keying.
-
-// If you'd like to enable the buggy anti-aliasing, then uncomment the following line.
-// This only works if 'FREETYPE_FONTS' is enabled!
-//#define ENABLE_FONT_ANTIALIASING
-
-// The above is no longer a problem in this branch, so antialiasing can be safely enabled
-#define ENABLE_FONT_ANTIALIASING
-
 // This controls however many glyphs (letters) the game can cache in VRAM at once
 #define TOTAL_GLYPH_SLOTS 256
 
@@ -59,6 +45,7 @@ typedef struct Font
 	FT_Library library;
 	FT_Face face;
 	unsigned char *data;
+	bool antialiasing;
 #else
 	unsigned char *image_buffer;
 	size_t image_buffer_width;
@@ -1036,11 +1023,7 @@ static Glyph* GetGlyph(Font *font, unsigned long unicode_value)
 #ifdef FREETYPE_FONTS
 	unsigned int glyph_index = FT_Get_Char_Index(font->face, unicode_value);
 
-#ifdef ENABLE_FONT_ANTIALIASING
-	if (FT_Load_Glyph(font->face, glyph_index, FT_LOAD_RENDER) == 0)
-#else
-	if (FT_Load_Glyph(font->face, glyph_index, FT_LOAD_RENDER | FT_LOAD_TARGET_MONO) == 0)
-#endif
+	if (FT_Load_Glyph(font->face, glyph_index, FT_LOAD_RENDER | (font->antialiasing ? 0 : FT_LOAD_TARGET_MONO)) == 0)
 	{
 		FT_Bitmap bitmap;
 		FT_Bitmap_New(&bitmap);
@@ -1140,7 +1123,7 @@ static Glyph* GetGlyph(Font *font, unsigned long unicode_value)
 }
 
 #ifdef FREETYPE_FONTS
-Font* LoadFreeTypeFontFromData(const unsigned char *data, size_t data_size, size_t cell_width, size_t cell_height)
+Font* LoadFreeTypeFontFromData(const unsigned char *data, size_t data_size, size_t cell_width, size_t cell_height, bool antialiasing)
 {
 	Font *font = (Font*)malloc(sizeof(Font));
 
@@ -1202,6 +1185,8 @@ Font* LoadFreeTypeFontFromData(const unsigned char *data, size_t data_size, size
 
 						font->glyph_list_head = &font->glyphs[TOTAL_GLYPH_SLOTS - 1];
 
+						font->antialiasing = antialiasing;
+
 						return font;
 					}
 
@@ -1220,7 +1205,7 @@ Font* LoadFreeTypeFontFromData(const unsigned char *data, size_t data_size, size
 	return NULL;
 }
 
-Font* LoadFreeTypeFont(const char *font_filename, size_t cell_width, size_t cell_height)
+Font* LoadFreeTypeFont(const char *font_filename, size_t cell_width, size_t cell_height, bool antialiasing)
 {
 	Font *font = NULL;
 
@@ -1229,7 +1214,7 @@ Font* LoadFreeTypeFont(const char *font_filename, size_t cell_width, size_t cell
 
 	if (file_buffer != NULL)
 	{
-		font = LoadFreeTypeFontFromData(file_buffer, file_size, cell_width, cell_height);
+		font = LoadFreeTypeFontFromData(file_buffer, file_size, cell_width, cell_height, antialiasing);
 		free(file_buffer);
 	}
 

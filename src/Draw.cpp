@@ -748,6 +748,7 @@ void InitTextObject(const char *name)
 
 	// Get font size
 	size_t width, height;
+	bool antialiasing;
 
 	// Let me tell you why these font sizes are unfortunate...
 	// 6x12 is a good font size - fonts use high-quality bitmaps at that
@@ -779,12 +780,15 @@ void InitTextObject(const char *name)
 		height = 12 * mag;
 		width = 6 * mag;
 	}
+
+	antialiasing = false;
 #else
 	height = 10 * mag;
 	width = 5 * mag;
+	antialiasing = mag != 1;	// The 1x font looks better without antialiasing
 #endif
 
-	font = LoadFreeTypeFont(path.c_str(), width, height);
+	font = LoadFreeTypeFont(path.c_str(), width, height, antialiasing);
 #else
 	std::string bitmap_path;
 	std::string metadata_path;
