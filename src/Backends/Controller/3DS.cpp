@@ -46,8 +46,8 @@ bool ControllerBackend_GetJoystickStatus(bool **buttons, unsigned int *button_co
 	button_buffer[8] |= hid_buttons & KEY_CPAD_DOWN;  // Down
 	button_buffer[9] |= hid_buttons & KEY_CPAD_LEFT;  // Left
 	button_buffer[10] |= hid_buttons & KEY_CPAD_RIGHT;// Right
-	button_buffer[11] |= hid_buttons & KEY_L;
-	button_buffer[12] |= hid_buttons & KEY_R;
+	button_buffer[11] |= hid_buttons & KEY_ZL;
+	button_buffer[12] |= hid_buttons & KEY_ZR;
 	button_buffer[13] |= hid_buttons & KEY_SELECT;
 	button_buffer[14] |= hid_buttons & KEY_DLEFT;
 	button_buffer[15] |= hid_buttons & KEY_DRIGHT;
