@@ -366,7 +366,7 @@ void RenderBackend_ColourFill(RenderBackend_Surface *surface, const RenderBacken
 
 	SelectRenderTarget(surface->render_target);
 
-	C2D_DrawRectSolid(rect->left, rect->top, 0.0f, rect->right - rect->left, rect->bottom - rect->top, C2D_Color32(red, green, blue, alpha));
+	C2D_DrawRectSolid(rect->left, rect->top, 0.0f, rect->right - rect->left, rect->bottom - rect->top, C2D_Color32((red * alpha) / 0xFF, (green * alpha) / 0xFF, (blue * alpha) / 0xFF, alpha));
 }
 
 RenderBackend_GlyphAtlas* RenderBackend_CreateGlyphAtlas(size_t width, size_t height)
