@@ -7,8 +7,13 @@
 
 #pragma once
 
-#define WINDOW_WIDTH 426
-#define WINDOW_HEIGHT 240
+#ifdef _3DS
+ #define WINDOW_WIDTH 400
+ #define WINDOW_HEIGHT 240
+#else
+ #define WINDOW_WIDTH 426
+ #define WINDOW_HEIGHT 240
+#endif
 
 #define SPRITE_SCALE 1	// Set to 2 for 2x sprites, 4 for 4x, etc. Must be a power of 2
 

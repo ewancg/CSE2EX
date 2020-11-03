@@ -150,3 +150,15 @@ void Backend_Delay(unsigned int ticks)
 	// svcSleepThread measures in nanoseconds
 	svcSleepThread(ticks * 1000000);
 }
+
+void Backend_GetDisplayMode(Backend_DisplayMode *display_mode)
+{
+	display_mode->width = 400;
+	display_mode->height = 240;
+	display_mode->refresh_rate = 60;
+}
+
+bool Backend_IsConsole(void)
+{
+	return true;
+}

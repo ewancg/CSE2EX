@@ -112,8 +112,10 @@ static void EndRendering(void)
 	}
 }
 
-RenderBackend_Surface* RenderBackend_Init(const char *window_title, size_t screen_width, size_t screen_height, bool fullscreen)
+RenderBackend_Surface* RenderBackend_Init(const char *window_title, size_t screen_width, size_t screen_height, bool fullscreen, bool *vsync)
 {
+	*vsync = true;
+
 	if (C3D_Init(C3D_DEFAULT_CMDBUF_SIZE))
 	{
 		if (C2D_Init(C2D_DEFAULT_MAX_OBJECTS))
@@ -297,7 +299,7 @@ void RenderBackend_UploadSurface(RenderBackend_Surface *surface, const unsigned 
 	{
 		const unsigned char *src = pixels;
 
-		// Convert from colour-keyed RGB to ABGR
+		// Convert from RGBA to ABGR
 		for (size_t h = 0; h < height; ++h)
 		{
 			unsigned char *dst = &abgr_buffer[h * surface->texture.width * 4];
@@ -307,8 +309,9 @@ void RenderBackend_UploadSurface(RenderBackend_Surface *surface, const unsigned 
 				unsigned char r = *src++;
 				unsigned char g = *src++;
 				unsigned char b = *src++;
+				unsigned char a = *src++;
 
-				*dst++ = r == 0 && g == 0 && b == 0 ? 0 : 0xFF;
+				*dst++ = a;
 				*dst++ = b;
 				*dst++ = g;
 				*dst++ = r;
@@ -355,7 +358,7 @@ void RenderBackend_Blit(RenderBackend_Surface *source_surface, const RenderBacke
 	C2D_DrawImageAt(image, x, y, 0.0f);
 }
 
-void RenderBackend_ColourFill(RenderBackend_Surface *surface, const RenderBackend_Rect *rect, unsigned char red, unsigned char green, unsigned char blue)
+void RenderBackend_ColourFill(RenderBackend_Surface *surface, const RenderBackend_Rect *rect, unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha)
 {
 	EnableAlpha(false);
 
@@ -363,7 +366,7 @@ void RenderBackend_ColourFill(RenderBackend_Surface *surface, const RenderBacken
 
 	SelectRenderTarget(surface->render_target);
 
-	C2D_DrawRectSolid(rect->left, rect->top, 0.0f, rect->right - rect->left, rect->bottom - rect->top, C2D_Color32(red, green, blue, red == 0 && green == 0 && blue == 0 ? 0 : 0xFF));
+	C2D_DrawRectSolid(rect->left, rect->top, 0.0f, rect->right - rect->left, rect->bottom - rect->top, C2D_Color32(red, green, blue, alpha));
 }
 
 RenderBackend_GlyphAtlas* RenderBackend_CreateGlyphAtlas(size_t width, size_t height)
