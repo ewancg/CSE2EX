@@ -474,8 +474,8 @@ RenderBackend_Surface* RenderBackend_Init(const char *window_title, size_t scree
 			program_texture.uniforms.texture_coordinate_transform = glGetUniformLocation(program_texture.id, "texture_coordinate_transform");
 			program_texture.uniforms.vertex_transform = glGetUniformLocation(program_texture.id, "vertex_transform");
 
-			program_texture_colour_key.uniforms.texture_coordinate_transform = glGetUniformLocation(program_texture_colour_key.id, "texture_coordinate_transform");
-			program_texture_colour_key.uniforms.vertex_transform = glGetUniformLocation(program_texture_colour_key.id, "vertex_transform");
+//			program_texture_colour_key.uniforms.texture_coordinate_transform = glGetUniformLocation(program_texture_colour_key.id, "texture_coordinate_transform");
+//			program_texture_colour_key.uniforms.vertex_transform = glGetUniformLocation(program_texture_colour_key.id, "vertex_transform");
 
 			program_colour_fill.uniforms.vertex_transform = glGetUniformLocation(program_colour_fill.id, "vertex_transform");
 			program_colour_fill.uniforms.colour = glGetUniformLocation(program_colour_fill.id, "colour");
@@ -650,7 +650,7 @@ void RenderBackend_RestoreSurface(RenderBackend_Surface *surface)
 
 void RenderBackend_UploadSurface(RenderBackend_Surface *surface, const unsigned char *pixels, size_t width, size_t height)
 {
-	unsigned char *buffer = (unsigned char*)malloc(width * height);
+	unsigned char *buffer = (unsigned char*)malloc(width * height * 4);
 
 	if (buffer == NULL)
 	{
@@ -663,24 +663,25 @@ void RenderBackend_UploadSurface(RenderBackend_Surface *surface, const unsigned 
 		FlushVertexBuffer();
 
 	// Pre-multiply the colour channels with the alpha, so blending works correctly
-	unsigned char *pixels = surface->pixels;
+	const unsigned char *src_pointer = pixels;
+	unsigned char *dst_pointer = buffer;
 
 	for (unsigned int y = 0; y < height; ++y)
 	{
 		for (unsigned int x = 0; x < width; ++x)
 		{
-			*buffer++ = (pixels[0] * pixels[3]) / 0xFF;
-			*buffer++ = (pixels[1] * pixels[3]) / 0xFF;
-			*buffer++ = (pixels[2] * pixels[3]) / 0xFF;
-			*buffer++ = pixels[3];
-			pixels += 4;
+			*dst_pointer++ = (src_pointer[0] * src_pointer[3]) / 0xFF;
+			*dst_pointer++ = (src_pointer[1] * src_pointer[3]) / 0xFF;
+			*dst_pointer++ = (src_pointer[2] * src_pointer[3]) / 0xFF;
+			*dst_pointer++ = src_pointer[3];
+			src_pointer += 4;
 		}
 	}
 
-	SetTextureUploadAlignment(width * 3);
+	SetTextureUploadAlignment(width * 4);
 	glBindTexture(GL_TEXTURE_2D, surface->texture_id);
-	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, buffer);
-	free(surface->pixels);
+	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+	free(buffer);
 	glBindTexture(GL_TEXTURE_2D, last_source_texture);
 }
 
