@@ -258,3 +258,16 @@ void Backend_Delay(unsigned int ticks)
 {
 	SDL_Delay(ticks);
 }
+
+void Backend_GetDisplayMode(Backend_DisplayMode *display_mode)
+{
+	// Dummy - SDL1 doesn't seem to give us a way to do this and I hate it
+	display_mode->width = 1280;
+	display_mode->height = 720;
+	display_mode->refresh_rate = 0;	// Dummy - tricks the game into thinking it should never use vsync, which is correct
+}
+
+bool Backend_IsConsole(void)
+{
+	return false;
+}
