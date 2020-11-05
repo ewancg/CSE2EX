@@ -1011,6 +1011,13 @@ static int Callback_Options(OptionsMenu *parent_menu, size_t this_option, Callba
 	// Save our changes to the configuration file
 	memcpy(conf.bindings, bindings, sizeof(bindings));
 
+	// Draw 'saving' prompt
+	CortBox(&grcFull, 0x000000);
+	PutText((WINDOW_WIDTH / 2) - ((strlen("Saving...") * 5) / 2), WINDOW_HEIGHT / 2, "Saving...", RGB(0xFF, 0xFF, 0xFF));
+	PutFramePerSecound();
+	if (!Flip_SystemTask())
+		return CALLBACK_EXIT;
+
 	SaveConfigData(&conf);
 
 	return return_value;
