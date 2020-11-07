@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include <stddef.h>
+
 #include "WindowsWrapper.h"
 
 extern RECT grcGame;
@@ -15,6 +17,9 @@ extern RECT grcFull;
 extern BOOL gb60fps;
 extern BOOL gbSmoothScrolling;
 extern BOOL gbVsync;
+
+extern size_t font_width;
+extern size_t font_height;
 
 typedef enum SurfaceID
 {

@@ -50,6 +50,9 @@ BOOL gb60fps;
 BOOL gbSmoothScrolling;
 BOOL gbVsync;
 
+size_t font_width;
+size_t font_height;
+
 static unsigned int vsync_fps;
 
 static RenderBackend_Surface *framebuffer;	// TODO - Not the original variable name
@@ -772,21 +775,25 @@ void InitTextObject(const char *name)
 	{
 		// Special-case 2 to use a size more
 		// likely to have embedded bitmaps
-		height = 20;
-		width = 10;
+		font_height = 10;
+		font_width = 5;
 	}
 	else
 	{
-		height = 12 * mag;
-		width = 6 * mag;
+		font_height = 12;
+		font_width = 6;
 	}
 
 	antialiasing = false;
 #else
-	height = 10 * mag;
-	width = 5 * mag;
+	font_height = 10;
+	font_width = 5;
+
 	antialiasing = mag != 1;	// The 1x font looks better without antialiasing
 #endif
+
+	height = font_height * mag;
+	width = font_width * mag;
 
 	font = LoadFreeTypeFont(path.c_str(), width, height, antialiasing);
 #else
