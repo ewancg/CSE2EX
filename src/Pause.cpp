@@ -991,6 +991,8 @@ static int Callback_Options(OptionsMenu *parent_menu, size_t this_option, Callba
 	if (!LoadConfigData(&conf))
 		DefaultConfigData(&conf);
 
+	CONFIGDATA previous_conf = conf;
+
 	Option options[] = {
 	#if !defined(__WIIU__) && !defined(_3DS)
 		{"Controls (Keyboard)", Callback_ControlsKeyboard, NULL, NULL, 0, FALSE},
@@ -1008,7 +1010,7 @@ static int Callback_Options(OptionsMenu *parent_menu, size_t this_option, Callba
 	#endif
 
 	#if !defined(_3DS)
-		{"Smooth Scrolling", Callback_SmoothScrolling, &conf, NULL, 0, FALSE}
+		{"Smooth Scrolling", Callback_SmoothScrolling, &conf, NULL, 0, FALSE},
 	#endif
 	};
 
@@ -1034,14 +1036,17 @@ static int Callback_Options(OptionsMenu *parent_menu, size_t this_option, Callba
 	// Save our changes to the configuration file
 	memcpy(conf.bindings, bindings, sizeof(bindings));
 
-	// Draw 'saving' prompt
-	CortBox(&grcFull, 0x000000);
-	PutTextCentred(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, "Saving...", RGB(0xFF, 0xFF, 0xFF));
-	PutFramePerSecound();
-	if (!Flip_SystemTask())
-		return CALLBACK_EXIT;
+	if (memcmp(&conf, &previous_conf, sizeof(CONFIGDATA)))
+	{
+		// Draw 'saving' prompt
+		CortBox(&grcFull, 0x000000);
+		PutTextCentred(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, "Saving...", RGB(0xFF, 0xFF, 0xFF));
+		PutFramePerSecound();
+		if (!Flip_SystemTask())
+			return CALLBACK_EXIT;
 
-	SaveConfigData(&conf);
+		SaveConfigData(&conf);
+	}
 
 	return return_value;
 }
