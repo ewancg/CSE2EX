@@ -987,9 +987,16 @@ static int Callback_Options(OptionsMenu *parent_menu, size_t this_option, Callba
 		return CALLBACK_CONTINUE;
 
 	// Make the options match the configuration data
-	CONFIGDATA conf;
-	if (!LoadConfigData(&conf))
-		DefaultConfigData(&conf);
+	static bool config_loaded = false;
+	static CONFIGDATA conf;
+
+	if (!config_loaded)
+	{
+		config_loaded = true;
+
+		if (!LoadConfigData(&conf))
+			DefaultConfigData(&conf);
+	}
 
 	CONFIGDATA previous_conf = conf;
 
