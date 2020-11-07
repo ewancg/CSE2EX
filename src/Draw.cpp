@@ -746,9 +746,6 @@ void InitTextObject(const char *name)
 {
 	(void)name;	// Unused in this branch
 
-#ifdef FREETYPE_FONTS
-	std::string path = gDataPath + "/Font/font";
-
 	// Get font size
 	size_t width, height;
 	bool antialiasing;
@@ -783,19 +780,21 @@ void InitTextObject(const char *name)
 		font_height = 12;
 		font_width = 6;
 	}
-
-	antialiasing = false;
 #else
 	font_height = 10;
 	font_width = 5;
-
-	antialiasing = mag != 1;	// The 1x font looks better without antialiasing
 #endif
 
-	height = font_height * mag;
-	width = font_width * mag;
+#ifdef FREETYPE_FONTS
+	std::string path = gDataPath + "/Font/font";
 
-	font = LoadFreeTypeFont(path.c_str(), width, height, antialiasing);
+#ifdef JAPANESE
+	bool antialiasing = false;
+#else
+	bool antialiasing = mag != 1;	// The 1x font looks better without antialiasing
+#endif
+
+	font = LoadFreeTypeFont(path.c_str(), font_width * mag, font_height * mag, antialiasing);
 #else
 	std::string bitmap_path;
 	std::string metadata_path;
