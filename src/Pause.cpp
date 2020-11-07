@@ -998,7 +998,7 @@ static int Callback_Options(OptionsMenu *parent_menu, size_t this_option, Callba
 			DefaultConfigData(&conf);
 	}
 
-	CONFIGDATA previous_conf = conf;
+	const CONFIGDATA previous_conf = conf;
 
 	Option options[] = {
 	#if !defined(__WIIU__) && !defined(_3DS)
