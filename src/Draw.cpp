@@ -748,7 +748,6 @@ void InitTextObject(const char *name)
 
 	// Get font size
 	size_t width, height;
-	bool antialiasing;
 
 	// Let me tell you why these font sizes are unfortunate...
 	// 6x12 is a good font size - fonts use high-quality bitmaps at that
@@ -780,19 +779,17 @@ void InitTextObject(const char *name)
 		font_height = 12;
 		font_width = 6;
 	}
+
+	bool antialiasing = false;
 #else
 	font_height = 10;
 	font_width = 5;
+
+	bool antialiasing = mag != 1;	// The 1x font looks better without antialiasing
 #endif
 
 #ifdef FREETYPE_FONTS
 	std::string path = gDataPath + "/Font/font";
-
-#ifdef JAPANESE
-	bool antialiasing = false;
-#else
-	bool antialiasing = mag != 1;	// The 1x font looks better without antialiasing
-#endif
 
 	font = LoadFreeTypeFont(path.c_str(), font_width * mag, font_height * mag, antialiasing);
 #else
