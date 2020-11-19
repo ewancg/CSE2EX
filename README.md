@@ -13,7 +13,7 @@ Branch | Description
 
 CSE2 is a decompilation of Cave Story.
 
-![Screenshot](screenshot.png)
+![Screenshot](images/screenshot.png)
 
 ## Background
 
@@ -65,6 +65,8 @@ the generated assembly code to that of the original executable. The tool for
 this can be found in the 'devilution' folder.
 
 ### CMake (Visual Studio & MinGW-w64)
+
+(A beginner-friendly guide can be found in [VISUAL_STUDIO_2019_GUIDE.md](VISUAL_STUDIO_2019_GUIDE.md))
 
 Switch to the terminal (Visual Studio users should open the [Developer Command Prompt](https://docs.microsoft.com/en-us/dotnet/framework/tools/developer-command-prompt-for-vs))
 and `cd` into this folder. After that, generate the files for your build system
