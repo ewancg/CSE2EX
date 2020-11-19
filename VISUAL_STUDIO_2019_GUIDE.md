@@ -20,9 +20,9 @@ and then click 'Install'. Once it's done installing, you'll be prompted
 to restart your computer.
 
 Next, download a copy of CSE2's source code if you haven't already and
-extract it somewhere. You can find a copy of CSE2 Accurate's code here:
+extract it somewhere. You can find a copy of CSE2 Portable's code here:
 
-https://github.com/Clownacy/CSE2/archive/accurate.zip
+https://github.com/Clownacy/CSE2/archive/portable.zip
 
 You are now ready to compile CSE2. To begin, open Visual Studio 2019. If
 it prompts you to open a project, select 'Continue without code' to skip
