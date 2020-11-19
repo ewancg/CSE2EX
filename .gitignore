@@ -54,11 +54,11 @@
 /CMakeSettings.json
 
 # Exclude save data
-/game_english/Config.dat
+/game_english/ConfigCSE2E.dat
 /game_english/Profile.dat
 /game_english/290.rec
 /game_english/window.rect
-/game_japanese/Config.dat
+/game_japanese/ConfigCSE2E.dat
 /game_japanese/Profile.dat
 /game_japanese/290.rec
 /game_japanese/window.rect
@@ -76,30 +76,6 @@
 # Exclude error logs
 /game_english/error.log
 /game_japanese/error.log
-
-###################
-# Accurate branch #
-###################
-
-# Exclude devilution-comparer assembly output
-/devilution/orig.asm
-/devilution/compare.asm
-
-# Exclude MSVC IntelliSense database
-/vs2003/CSE2.ncb
-
-# Exclude MSVC Solution User Options file
-/vs2003/CSE2.suo
-
-# Exclude MSVC build folders
-/vs2003/Debug
-/vs2003/Release
-/vs2003/Debug (Japanese)
-/vs2003/Release (Japanese)
-
-###################
-# Portable branch #
-###################
 
 # Exclude converted resource files
 /src/Resource
