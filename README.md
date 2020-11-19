@@ -65,10 +65,11 @@ I'm glad that Cave Story was one of them. [Patching a dusty old executable from 
 ## Dependencies
 
 * SDL2 (if `BACKEND_AUDIO` or `BACKEND_PLATFORM` are set to `SDL2`)
+* SDL (if `BACKEND_AUDIO` or `BACKEND_PLATFORM` are set to `SDL1`)
 * GLFW3 (if `BACKEND_PLATFORM` is set to `GLFW3`)
 * FreeType (if `FREETYPE_FONTS` is enabled)
 
-If these are not found, they will be built locally.
+If these are not found, they will be built locally (with the exception of SDL).
 
 In addition, `pkg-config` is required for builds that require static-linkage.
 
