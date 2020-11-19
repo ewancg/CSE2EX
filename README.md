@@ -22,15 +22,16 @@ Supported platforms include...
 
 Some of the above features will be axed soon, as the project completes its transition from CSE2's old enhanced branch to my personal build.
 
-![Screenshot](screenshot.png)
+![Screenshot](images/screenshot.png)
 
 ## Dependencies
 
 * SDL2 (if `BACKEND_AUDIO` or `BACKEND_PLATFORM` are set to `SDL2`)
+* SDL (if `BACKEND_AUDIO` or `BACKEND_PLATFORM` are set to `SDL1`)
 * GLFW3 (if `BACKEND_PLATFORM` is set to `GLFW3`)
 * FreeType (if `FREETYPE_FONTS` is enabled)
 
-If these are not found, they will be built locally.
+If these are not found, they will be built locally (with the exception of SDL).
 
 In addition, `pkg-config` is required for builds that require static-linkage.
 
@@ -39,6 +40,8 @@ A list of dependencies for specific platforms can be found [on the wiki](https:/
 ## Building
 
 This project uses CMake, allowing it to be built with a range of compilers.
+
+(A beginner-friendly guide can be found in [VISUAL_STUDIO_2019_GUIDE.md](VISUAL_STUDIO_2019_GUIDE.md))
 
 Switch to the terminal (Visual Studio users should open the [Developer Command Prompt](https://docs.microsoft.com/en-us/dotnet/framework/tools/developer-command-prompt-for-vs))
 and `cd` into this folder. After that, generate the files for your build system
