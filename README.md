@@ -24,7 +24,7 @@ Supported platforms include...
 * 3DS
 * RISC OS
 
-![Screenshot](screenshot.png)
+![Screenshot](images/screenshot.png)
 
 ## Background
 
@@ -77,6 +77,8 @@ A list of dependencies for specific platforms can be found [on the wiki](https:/
 ## Building
 
 This project uses CMake, allowing it to be built with a range of compilers.
+
+(A beginner-friendly guide can be found in [VISUAL_STUDIO_2019_GUIDE.md](VISUAL_STUDIO_2019_GUIDE.md))
 
 Switch to the terminal (Visual Studio users should open the [Developer Command Prompt](https://docs.microsoft.com/en-us/dotnet/framework/tools/developer-command-prompt-for-vs))
 and `cd` into this folder. After that, generate the files for your build system
