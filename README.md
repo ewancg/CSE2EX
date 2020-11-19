@@ -62,7 +62,7 @@ Name | Function
 `-DFIX_BUGS=ON` | Enabled by default - Fix various bugs in the game
 `-DDEBUG_SAVE=ON` | Re-enable the ability to drag-and-drop save files onto the window
 `-DLANCZOS_RESAMPLER=ON` | Use Lanczos filtering for audio resampling instead of linear-interpolation (Lanczos is more performance-intensive, but higher quality)
-`-DFREETYPE_FONTS=ON` | Use FreeType2 to render the DejaVu Mono (English) or Migu1M (Japanese) fonts, instead of using pre-rendered copies of Courier New (English) and MS Gothic (Japanese)
+`-DFREETYPE_FONTS=ON` | Enabled by default - Use FreeType2 to render the DejaVu Mono (English) or Migu1M (Japanese) fonts, instead of using pre-rendered copies of Courier New (English) and MS Gothic (Japanese)
 `-DBACKEND_RENDERER=OpenGL3` | Render with OpenGL 3.2 (hardware-accelerated)
 `-DBACKEND_RENDERER=OpenGLES2` | Render with OpenGL ES 2.0 (hardware-accelerated)
 `-DBACKEND_RENDERER=SDLTexture` | (Default) Render with SDL2's Texture API (hardware-accelerated) (note: requires `-DBACKEND_PLATFORM=SDL2`)

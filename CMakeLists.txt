@@ -17,7 +17,7 @@ option(FIX_BUGS "Fix various bugs in the game" ON)
 option(FIX_MAJOR_BUGS "Fix bugs that invoke undefined behaviour or cause memory leaks" ON)
 option(DEBUG_SAVE "Re-enable the ability to drag-and-drop save files onto the window" OFF)
 option(LANCZOS_RESAMPLER "Use Lanczos filtering for audio resampling instead of linear-interpolation (Lanczos is more performance-intensive, but higher quality)" OFF)
-option(FREETYPE_FONTS "Use FreeType2 to render the DejaVu Mono (English) or Migu1M (Japanese) fonts, instead of using pre-rendered copies of Courier New (English) and MS Gothic (Japanese)" OFF)
+option(FREETYPE_FONTS "Use FreeType2 to render the DejaVu Mono (English) or Migu1M (Japanese) fonts, instead of using pre-rendered copies of Courier New (English) and MS Gothic (Japanese)" ON)
 option(EXTRA_SOUND_FORMATS "Adds support for extra music/SFX formats using the clownaudio library (use the CLOWNAUDIO options to toggle specific formats)" ON)
 
 set(BACKEND_RENDERER "SDLTexture" CACHE STRING "Which renderer the game should use: 'OpenGL3' for an OpenGL 3.2 renderer, 'OpenGLES2' for an OpenGL ES 2.0 renderer, 'SDLTexture' for SDL2's hardware-accelerated Texture API, 'Wii U' for the Wii U's hardware-accelerated GX2 API, '3DS' for the 3DS's hardware accelerated Citro2D/Citro3D API, or 'Software' for a handwritten software renderer")
