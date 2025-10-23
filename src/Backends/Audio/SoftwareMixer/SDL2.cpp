@@ -66,7 +66,7 @@ unsigned long SoftwareMixerBackend_Init(void (*callback)(long *stream, size_t fr
 
 	SDL_AudioSpec specification;
 	specification.freq = 48000;
-	specification.format = AUDIO_S16;
+	specification.format = AUDIO_S16SYS;
 	specification.channels = 2;
 	specification.samples = 0x400;	// Roughly 10 milliseconds for 48000Hz
 	specification.callback = Callback;
